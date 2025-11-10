@@ -1,0 +1,24 @@
+name: Deploy to GitHub Pages
+
+# Sự kiện kích hoạt workflow
+on:
+  push:
+    branches: [ main ]     # Tự động chạy khi có code mới được push lên nhánh main
+  workflow_dispatch:        # Cho phép chạy thủ công nếu cần
+
+# Các công việc sẽ thực hiện
+jobs:
+  deploy:
+    runs-on: ubuntu-latest   # Máy ảo GitHub chạy trên Linux
+
+    steps:
+      # Bước 1: Lấy toàn bộ source code từ repo về máy ảo
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      # Bước 2: Triển khai website HTML lên GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}  # Token mặc định để cấp quyền
+          publish_dir: ./                            # Thư mục chứa file HTML (ở đây là gốc project)
